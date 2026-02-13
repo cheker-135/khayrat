@@ -39,6 +39,25 @@
     // STORAGE LINKED ROUTE
     Route::get('storage-link',[AdminController::class,'storageLink'])->name('storage.link');
 
+    Route::get('storage-debug', function() {
+        $path = storage_path('app/public');
+        $results = [
+            'app_url' => config('app.url'),
+            'storage_path_exists' => file_exists($path),
+            'storage_content' => file_exists($path) ? scandir($path) : 'N/A',
+            'public_storage_exists' => file_exists(public_path('storage')),
+            'public_storage_is_link' => is_link(public_path('storage')),
+            'public_storage_link_target' => is_link(public_path('storage')) ? readlink(public_path('storage')) : 'N/A',
+        ];
+        if (file_exists($path . '/photos')) {
+             $results['photos_content'] = scandir($path . '/photos');
+             if (in_array('shares', $results['photos_content'])) {
+                 $results['shares_content'] = scandir($path . '/photos/shares');
+             }
+        }
+        return response()->json($results);
+    });
+
 
     Auth::routes(['register' => false]);
 
