@@ -1,3 +1,8 @@
+@php
+use App\Http\Helper;
+@endphp
+
+
 <header class="header shop">
     <!-- Topbar - Hidden on mobile -->
     <div class="topbar">
