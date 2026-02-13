@@ -49,6 +49,14 @@
             'public_storage_is_link' => is_link(public_path('storage')),
             'public_storage_link_target' => is_link(public_path('storage')) ? readlink(public_path('storage')) : 'N/A',
         ];
+
+        if (file_exists($path . '/photos/1')) {
+            $results['photos_1_content'] = scandir($path . '/photos/1');
+        }
+        if (file_exists($path . '/files/shares')) {
+            $results['files_shares_content'] = scandir($path . '/files/shares');
+        }
+        
         if (file_exists($path . '/photos')) {
              $results['photos_content'] = scandir($path . '/photos');
              if (in_array('shares', $results['photos_content'])) {
