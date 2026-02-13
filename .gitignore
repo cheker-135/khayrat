@@ -2,7 +2,11 @@
 /public/hot
 /public/storage
 /vendor
-/storage/*
+/storage/*.key
+/storage/framework/*
+!/storage/framework/cache/
+!/storage/framework/sessions/
+!/storage/framework/views/
 !/storage/app/public
 .env
 .env.backup
