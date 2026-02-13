@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "chmod -R 775 storage bootstrap/cache && php artisan storage:link && php -S 0.0.0.0:$PORT -t public"
+    "startCommand": "chmod -R 777 storage bootstrap/cache && rm -rf public/storage && php artisan storage:link && php artisan vendor:publish --tag=lfm_public --force && php artisan config:clear && php artisan view:clear && php -S 0.0.0.0:$PORT -t public"
   }
 }
