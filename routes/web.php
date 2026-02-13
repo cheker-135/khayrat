@@ -35,7 +35,12 @@
         request()->session()->flash('success', 'Successfully cache cleared.');
         return redirect()->back();
     })->name('cache.clear');
-
+  //temporary route to migrate and seed 
+    Route::get('/init-db', function() {
+    Artisan::call('migrate', ['--force' => true]);
+    Artisan::call('db:seed', ['--force' => true]);
+    return "✅ Database migrated and seeded!";
+});
 
     // STORAGE LINKED ROUTE
     Route::get('storage-link',[AdminController::class,'storageLink'])->name('storage.link');
