@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "chmod -R 777 storage bootstrap/cache public && rm -rf public/storage && ln -snf $PWD/storage/app/public $PWD/public/storage && echo '--- Storage Debug ---' && echo 'Working Dir: ' $PWD && echo 'Storage Target Exists: ' && ls -d storage/app/public && echo 'Public Link Info: ' && ls -ld public/storage && echo 'File List: ' && ls -F public/storage | head -n 10 && php artisan optimize:clear && php artisan vendor:publish --tag=lfm_public --force && php -S 0.0.0.0:$PORT -t public"
+    "startCommand": "chmod -R 777 storage bootstrap/cache public && mkdir -p storage/app/public/photos/shares storage/app/public/files/shares && rm -rf public/storage storage/framework/sessions/* && ln -s ../storage/app/public public/storage && echo '--- Storage Link Info ---' && ls -ld public/storage && ls -F public/storage && php artisan optimize:clear && php artisan vendor:publish --tag=lfm_public --force && php -S 0.0.0.0:$PORT -t public"
   }
 }
