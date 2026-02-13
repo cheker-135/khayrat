@@ -53,7 +53,12 @@ use App\Http\Helper;
                         @php
                             $settings=DB::table('settings')->get();
                         @endphp                    
-                        <a href="{{route('home')}}"><img src="@foreach($settings as $data){{$data->logo}}@endforeach" alt="logo" class="img-fluid"></a>
+                        <a href="{{route('home')}}">
+                            @php
+                                $logo = DB::table('settings')->value('logo');
+                            @endphp
+                            <img src="{{asset(ltrim($logo, '/'))}}" alt="logo" class="img-fluid">
+                        </a>
                     </div>
                 </div>
 
