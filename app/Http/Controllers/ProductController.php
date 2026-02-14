@@ -59,7 +59,7 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric',
         ]);
 
-        $slug = generateUniqueSlug($request->title, Product::class);
+        $slug = \Helper::generateUniqueSlug($request->title, Product::class);
         $validatedData['slug'] = $slug;
         $validatedData['is_featured'] = $request->input('is_featured', 0);
 

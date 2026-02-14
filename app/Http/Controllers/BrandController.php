@@ -43,7 +43,7 @@ class BrandController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        $slug = generateUniqueSlug($request->title, Brand::class);
+        $slug = \Helper::generateUniqueSlug($request->title, Brand::class);
 
         $validatedData['slug'] = $slug;
 
