@@ -1,33 +1,42 @@
 @extends('backend.layouts.master')
 
-@section('title','Review Edit')
+@section('title','KHAYRAT || Modifier l\'avis')
 
 @section('main-content')
 <div class="card">
-  <h5 class="card-header">Modifier l'avis</h5>
-  <div class="card-body">
-    <form action="{{route('review.update',$review->id)}}" method="POST">
-      @csrf
-      @method('PATCH')
-      <div class="form-group">
-        <label for="name">Avis par :</label>
-        <input type="text" disabled class="form-control" value="{{$review->user_info->name}}">
-      </div>
-      <div class="form-group">
-        <label for="review">Avis</label>
-      <textarea name="review" id="" cols="20" rows="10" class="form-control">{{$review->review}}</textarea>
-      </div>
-      <div class="form-group">
-        <label for="status">État :</label>
-        <select name="status" id="" class="form-control">
-          <option value="">--Sélectionner un statut--</option>
-          <option value="active" {{(($review->status=='active')? 'selected' : '')}}>Actif</option>
-          <option value="inactive" {{(($review->status=='inactive')? 'selected' : '')}}>Inactif</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Mettre à jour</button>
-    </form>
-  </div>
+    <div class="card-header">
+        <h5><i class="fas fa-edit mr-2"></i>Modifier l'avis client</h5>
+    </div>
+    <div class="card-body">
+      <form action="{{route('review.update',$review->id)}}" method="POST">
+        @csrf
+        @method('PATCH')
+        
+        <div class="form-grid">
+            <div class="form-group grid-full">
+              <label for="name">Auteur de l'avis</label>
+              <input type="text" disabled class="form-control" value="{{$review->user_info->name}}">
+            </div>
+
+            <div class="form-group grid-full">
+              <label for="review_text">Contenu de l'avis</label>
+              <textarea name="review" id="review_text" cols="20" rows="5" class="form-control">{{$review->review}}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="status">Statut</label>
+              <select name="status" id="status" class="form-control">
+                <option value="active" {{(($review->status=='active')? 'selected' : '')}}>Actif</option>
+                <option value="inactive" {{(($review->status=='inactive')? 'selected' : '')}}>Inactif</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="form-actions mb-3">
+           <button type="submit" class="btn btn-success"><i class="fas fa-save mr-2"></i>Mettre à jour l'avis</button>
+        </div>
+      </form>
+    </div>
 </div>
 @endsection
 

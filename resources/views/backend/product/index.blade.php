@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Liste des Produits')
 
 @section('main-content')
  <!-- DataTales Example -->
@@ -10,7 +11,7 @@
      </div>
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Liste des produits</h6>
-      <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Ajouter un produit</a>
+      <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Ajouter un produit"><i class="fas fa-plus"></i> Ajouter un produit</a>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -18,10 +19,10 @@
         <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Titre</th>
               <th>Catégorie</th>
-              <th>Est en vedette</th>
+              <th>En vedette</th>
               <th>Prix</th>
               <th>Remise</th>
               <th>Taille</th>
@@ -30,24 +31,24 @@
               <th>Stock</th>
               <th>Photo</th>
               <th>Statut</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Titre</th>
               <th>Catégorie</th>
-              <th>Est en vedette</th>
+              <th>En vedette</th>
               <th>Prix</th>
               <th>Remise</th>
               <th>Taille</th>
-              <th>Condition</th>
+              <th>État</th>
              
               <th>Stock</th>
               <th>Photo</th>
               <th>Statut</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </tfoot>
           <tbody>
@@ -67,8 +68,8 @@
                       </sub>
                     </td>
                     <td>{{(($product->is_featured==1)? 'Oui': 'Non')}}</td>
-                    <td>Rs. {{$product->price}} /-</td>
-                    <td>  {{$product->discount}}% OFF</td>
+                    <td>{{number_format($product->price,2)}} {{Helper::base_currency()}}</td>
+                    <td>  {{$product->discount}}% de réduction</td>
                     <td>{{$product->size}}</td>
                     <td>{{$product->condition}}</td>
                    
@@ -92,9 +93,9 @@
                     </td>
                     <td>
                         @if($product->status=='active')
-                            <span class="badge badge-success">{{$product->status}}</span>
+                            <span class="badge badge-success">Actif</span>
                         @else
-                            <span class="badge badge-warning">{{$product->status}}</span>
+                            <span class="badge badge-warning">Inactif</span>
                         @endif
                     </td>
                     <td>
@@ -175,8 +176,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Êtes-vous sûr ?",
+                    text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -185,7 +186,7 @@
                     if (willDelete) {
                        form.submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal("Vos données sont en sécurité !");
                     }
                 });
           })

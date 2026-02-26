@@ -1,9 +1,9 @@
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+      <footer class="sticky-footer bg-white shadow-sm border-top">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; <a href="https://github.com/Prajwal100" target="_blank">Prajwal R.</a> {{date('Y')}}</span>
+            <span class="text-muted">Tous Droits Réservés &copy; <a href="https://github.com/cheker-135" target="_blank" class="text-primary font-weight-bold">Aouni Chaker.</a> {{date('Y')}}</span>
           </div>
         </div>
       </footer>
@@ -16,24 +16,33 @@
   <!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
+  <a class="scroll-to-top rounded shadow" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-gradient-primary text-white">
+          <h5 class="modal-title" id="exampleModalLabel">Prêt à partir ?</h5>
+          <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+        <div class="modal-body p-4 text-center">
+            <i class="fas fa-sign-out-alt fa-3x text-gray-300 mb-3"></i>
+            <p class="mb-0">Sélectionnez "Déconnexion" ci-dessous si vous êtes prêt à mettre fin à votre session actuelle.</p>
+        </div>
+        <div class="modal-footer bg-light">
+          <button class="btn btn-secondary px-4" type="button" data-dismiss="modal">Annuler</button>
+          <a class="btn btn-primary px-4" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Déconnexion
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
         </div>
       </div>
     </div>

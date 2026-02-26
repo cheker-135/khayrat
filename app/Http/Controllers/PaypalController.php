@@ -72,10 +72,11 @@ class PaypalController extends Controller
         // return $response;
   
         if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+            session()->put('order_id', session()->get('id')); // Keep the order ID for the thank you page
             request()->session()->flash('success','You successfully pay from Paypal! Thank You');
             session()->forget('cart');
             session()->forget('coupon');
-            return redirect()->route('home');
+            return redirect()->route('thank.you');
         }
   
         request()->session()->flash('error','Something went wrong please try again!!!');

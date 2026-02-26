@@ -1,46 +1,52 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Création de Livraison')
 
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Ajouter une livraison</h5>
+    <div class="card-header">
+        <h5><i class="fas fa-truck mr-2"></i>Ajouter une méthode de livraison</h5>
+    </div>
     <div class="card-body">
       <form method="post" action="{{route('shipping.store')}}">
         {{csrf_field()}}
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Type <span class="text-danger">*</span></label>
-        <input id="inputTitle" type="text" name="type" placeholder="Entrez le titre"  value="{{old('type')}}" class="form-control">
-        @error('type')
-        <span class="text-danger">{{$message}}</span>
-        @enderror
+        
+        <div class="form-grid">
+            <div class="form-group grid-full">
+              <label for="inputTitle">Type / Titre <span class="text-danger">*</span></label>
+              <input id="inputTitle" type="text" name="type" placeholder="Ex: Livraison Rapide"  value="{{old('type')}}" class="form-control">
+              @error('type')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+
+            <div class="form-group">
+              <label for="price">Prix <span class="text-danger">*</span></label>
+              <input id="price" type="number" name="price" placeholder="Entrez le prix"  value="{{old('price')}}" class="form-control">
+              @error('price')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            
+            <div class="form-group">
+              <label for="status">Statut <span class="text-danger">*</span></label>
+              <select name="status" class="form-control">
+                  <option value="active">Actif</option>
+                  <option value="inactive">Inactif</option>
+              </select>
+              @error('status')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
         </div>
 
-        <div class="form-group">
-          <label for="price" class="col-form-label">Prix <span class="text-danger">*</span></label>
-        <input id="price" type="number" name="price" placeholder="Entrez le prix"  value="{{old('price')}}" class="form-control">
-        @error('price')
-        <span class="text-danger">{{$message}}</span>
-        @enderror
-        </div>
-        
-        <div class="form-group">
-          <label for="status" class="col-form-label">État <span class="text-danger">*</span></label>
-          <select name="status" class="form-control">
-              <option value="active">Actif</option>
-              <option value="inactive">Inactif</option>
-          </select>
-          @error('status')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-        <div class="form-group mb-3">
-          <button type="reset" class="btn btn-warning">Réinitialiser</button>
-           <button class="btn btn-success" type="submit">Soumettre</button>
+        <div class="form-actions mb-3">
+           <button type="reset" class="btn btn-warning"><i class="fas fa-undo mr-2"></i>Réinitialiser</button>
+           <button class="btn btn-success" type="submit"><i class="fas fa-check-circle mr-2"></i>Enregistrer la méthode</button>
         </div>
       </form>
     </div>
 </div>
-
 @endsection
 
 @push('styles')
@@ -54,7 +60,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Écrivez une courte description.....",
         tabsize: 2,
         height: 150
     });

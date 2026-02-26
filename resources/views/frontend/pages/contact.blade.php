@@ -212,7 +212,7 @@
             <div class="map-container">
                 <div class="map-wrapper">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14130.857353934944!2d85.36529494999999!3d27.6952226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sne!2snp!4v1595323330171!5m2!1sne!2snp" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12794.755490539169!2d10.331291197664653!3d36.72615598656684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd37021eb79813%3A0x6e9a68615b18b45!2sHammam%20Lif!5e0!3m2!1sfr!2stn!4v1708940800000!5m2!1sfr!2stn" 
                         width="100%" 
                         height="450" 
                         style="border:0;" 

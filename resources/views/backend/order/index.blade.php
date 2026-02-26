@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Liste des Commandes')
 
 @section('main-content')
  <!-- DataTales Example -->
@@ -17,28 +18,28 @@
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Numéro de commande</th>
               <th>Nom</th>
               <th>Email</th>
               <th>Quantité</th>
               <th>Frais</th>
               <th>Montant total</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Numéro de commande</th>
               <th>Nom</th>
               <th>Email</th>
               <th>Quantité</th>
               <th>Frais</th>
               <th>Montant total</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
               </tr>
           </tfoot>
           <tbody>
@@ -52,17 +53,17 @@
                     <td>{{$order->first_name}} {{$order->last_name}}</td>
                     <td>{{$order->email}}</td>
                     <td>{{$order->quantity}}</td>
-                    <td>@foreach($shipping_charge as $data) $ {{number_format($data,2)}} @endforeach</td>
-                    <td>${{number_format($order->total_amount,2)}}</td>
+                    <td>@foreach($shipping_charge as $data) {{number_format($data,2)}} {{Helper::base_currency()}} @endforeach</td>
+                    <td>{{number_format($order->total_amount,2)}} {{Helper::base_currency()}}</td>
                     <td>
                         @if($order->status=='new')
-                          <span class="badge badge-primary">{{$order->status}}</span>
+                          <span class="badge badge-primary">Nouveau</span>
                         @elseif($order->status=='process')
-                          <span class="badge badge-warning">{{$order->status}}</span>
+                          <span class="badge badge-warning">En cours</span>
                         @elseif($order->status=='delivered')
-                          <span class="badge badge-success">{{$order->status}}</span>
+                          <span class="badge badge-success">Livré</span>
                         @else
-                          <span class="badge badge-danger">{{$order->status}}</span>
+                          <span class="badge badge-danger">Annulé</span>
                         @endif
                     </td>
                     <td>
@@ -136,8 +137,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Êtes-vous sûr ?",
+                    text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -146,7 +147,7 @@
                     if (willDelete) {
                        form.submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal("Vos données sont en sécurité !");
                     }
                 });
           })

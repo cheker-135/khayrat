@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title','E-SHOP || Page de la marque')
+@section('title','KHAYRAT || Liste des Marques')
 @section('main-content')
  <!-- DataTales Example -->
  <div class="card shadow mb-4">
@@ -18,20 +18,20 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Titre</th>
               <th>Slug</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Titre</th>
               <th>Slug</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
               </tr>
           </tfoot>
           <tbody>
@@ -42,9 +42,9 @@
                     <td>{{$brand->slug}}</td>
                     <td>
                         @if($brand->status=='active')
-                            <span class="badge badge-success">{{$brand->status}}</span>
+                            <span class="badge badge-success">Actif</span>
                         @else
-                            <span class="badge badge-warning">{{$brand->status}}</span>
+                            <span class="badge badge-warning">Inactif</span>
                         @endif
                     </td>
                     <td>
@@ -144,8 +144,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Êtes-vous sûr ?",
+                    text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -154,7 +154,7 @@
                     if (willDelete) {
                        form.submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal("Vos données sont en sécurité !");
                     }
                 });
           })

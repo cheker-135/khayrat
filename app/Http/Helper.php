@@ -193,6 +193,11 @@ class Helper
      * @param string $modelClass
      * @return string
      */
+    public static function base_currency()
+    {
+        return 'TND';
+    }
+
     public static function generateUniqueSlug($title, $modelClass)
     {
         $slug = Str::slug($title);

@@ -1,181 +1,232 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Order @if($order)- {{$order->order_number}} @endif</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>Commande #{{$order->order_number}}</title>
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+        .header {
+            padding: 30px;
+            background: #f8fafc;
+            border-bottom: 2px solid #28a745;
+        }
+        .logo {
+            float: left;
+            width: 150px;
+        }
+        .order-info {
+            float: right;
+            text-align: right;
+        }
+        .order-info h2 {
+            margin: 0;
+            color: #28a745;
+            font-size: 24px;
+        }
+        .order-info p {
+            margin: 5px 0 0;
+            color: #64748b;
+        }
+        .clearfix {
+            clear: both;
+        }
+        .details-section {
+            padding: 30px;
+        }
+        .row {
+            margin-bottom: 30px;
+        }
+        .column {
+            float: left;
+            width: 50%;
+        }
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .info-p {
+            margin: 3px 0;
+            line-height: 1.5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background: #28a745;
+            color: white;
+            text-align: left;
+            padding: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .total-row td {
+            border-bottom: none;
+            padding: 8px 12px;
+        }
+        .grand-total {
+            background: #f8fafc;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 18px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 10px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #fef9c3; color: #854d0e; }
+    </style>
 </head>
 <body>
+    @if($order)
+    <div class="header">
+        <div class="logo">
+            {{-- Using base64 for logo to ensure it loads in PDF --}}
+            @php
+                $settingsLogo = DB::table('settings')->value('logo');
+                $path = public_path(ltrim($settingsLogo, '/'));
+                $base64 = '';
+                if (file_exists($path) && is_file($path)) {
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $data = file_get_contents($path);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                }
+            @endphp
+            @if($base64)
+                <img src="{{ $base64 }}" style="max-height: 60px;">
+            @else
+                <h1 style="color: #28a745; margin: 0;">{{ env('APP_NAME', 'KHAYRAT') }}</h1>
+            @endif
+        </div>
+        <div class="order-info">
+            <h2>FACTURE</h2>
+            <p>Commande #{{$order->order_number}}</p>
+            <p>Date: {{ $order->created_at->format('d/m/Y') }}</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
 
-@if($order)
-<style type="text/css">
-  .invoice-header {
-    background: #f7f7f7;
-    padding: 10px 20px 10px 20px;
-    border-bottom: 1px solid gray;
-  }
-  .site-logo {
-    margin-top: 20px;
-  }
-  .invoice-right-top h3 {
-    padding-right: 20px;
-    margin-top: 20px;
-    color: green;
-    font-size: 30px!important;
-    font-family: serif;
-  }
-  .invoice-left-top {
-    border-left: 4px solid green;
-    padding-left: 20px;
-    padding-top: 20px;
-  }
-  .invoice-left-top p {
-    margin: 0;
-    line-height: 20px;
-    font-size: 16px;
-    margin-bottom: 3px;
-  }
-  thead {
-    background: green;
-    color: #FFF;
-  }
-  .authority h5 {
-    margin-top: -10px;
-    color: green;
-  }
-  .thanks h4 {
-    color: green;
-    font-size: 25px;
-    font-weight: normal;
-    font-family: serif;
-    margin-top: 20px;
-  }
-  .site-address p {
-    line-height: 6px;
-    font-weight: 300;
-  }
-  .table tfoot .empty {
-    border: none;
-  }
-  .table-bordered {
-    border: none;
-  }
-  .table-header {
-    padding: .75rem 1.25rem;
-    margin-bottom: 0;
-    background-color: rgba(0,0,0,.03);
-    border-bottom: 1px solid rgba(0,0,0,.125);
-  }
-  .table td, .table th {
-    padding: .30rem;
-  }
-</style>
-  <div class="invoice-header">
-    <div class="float-left site-logo">
-      <img src="{{asset('backend/img/logo.png')}}" alt="">
+    <div class="details-section">
+        <div class="row">
+            <div class="column">
+                <div class="section-title">De</div>
+                <p class="info-p"><strong>{{env('APP_NAME', 'KHAYRAT')}}</strong></p>
+                <p class="info-p">{{env('APP_ADDRESS', 'Tunisie')}}</p>
+                <p class="info-p">Tél: {{env('APP_PHONE', '+216')}}</p>
+                <p class="info-p">Email: {{env('APP_EMAIL', 'contact@khayrat.tn')}}</p>
+            </div>
+            <div class="column">
+                <div class="section-title">Facturé à</div>
+                <p class="info-p"><strong>{{$order->first_name}} {{$order->last_name}}</strong></p>
+                <p class="info-p">{{$order->address1}} {{ $order->address2 ? ', '.$order->address2 : '' }}</p>
+                <p class="info-p">{{$order->post_code}} {{$order->country}}</p>
+                <p class="info-p">Tél: {{ $order->phone }}</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="column">
+                <div class="section-title">Paiement</div>
+                <p class="info-p">Mode: {{ $order->payment_method == 'cod' ? 'Paiement à la livraison' : 'Paypal' }}</p>
+                <p class="info-p">Statut: 
+                    <span class="badge {{ $order->payment_status == 'paid' ? 'badge-success' : 'badge-warning' }}">
+                        {{ $order->payment_status == 'paid' ? 'Payé' : 'En attente' }}
+                    </span>
+                </p>
+            </div>
+            <div class="column">
+                <div class="section-title">Expédition</div>
+                <p class="info-p">Statut: {{ $order->status == 'delivered' ? 'Livré' : ($order->status == 'shipped' ? 'Expédié' : ($order->status == 'process' ? 'En cours' : 'Nouveau')) }}</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Description du Produit</th>
+                    <th style="text-align: center;">Prix Unitaire</th>
+                    <th style="text-align: center;">Quantité</th>
+                    <th style="text-align: right;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($order->cart_info as $cart)
+                <tr>
+                    <td>
+                        {{ $cart->product->title ?? 'Produit' }}
+                    </td>
+                    <td style="text-align: center;">{{ number_format($cart->price, 2) }} {{ Helper::base_currency() }}</td>
+                    <td style="text-align: center;">{{ $cart->quantity }}</td>
+                    <td style="text-align: right;">{{ number_format($cart->amount, 2) }} {{ Helper::base_currency() }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <div style="float: right; width: 40%; margin-top: 20px;">
+            <table style="border: none;">
+                <tr class="total-row">
+                    <td style="text-align: left; border: none;">Sous-total</td>
+                    <td style="text-align: right; border: none;">{{ number_format($order->sub_total, 2) }} {{ Helper::base_currency() }}</td>
+                </tr>
+                <tr class="total-row">
+                    @php
+                        $shipping_price = $order->shipping->price ?? 0;
+                    @endphp
+                    <td style="text-align: left; border: none;">Livraison</td>
+                    <td style="text-align: right; border: none;">{{ number_format($shipping_price, 2) }} {{ Helper::base_currency() }}</td>
+                </tr>
+                @if($order->coupon)
+                <tr class="total-row">
+                    <td style="text-align: left; border: none;">Remise (Coupon)</td>
+                    <td style="text-align: right; border: none;">-{{ number_format($order->coupon, 2) }} {{ Helper::base_currency() }}</td>
+                </tr>
+                @endif
+                <tr class="total-row grand-total">
+                    <td style="text-align: left; border: none; padding: 15px 12px;">TOTAL</td>
+                    <td style="text-align: right; border: none; padding: 15px 12px;">{{ number_format($order->total_amount, 2) }} {{ Helper::base_currency() }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="float-right site-address">
-      <h4>{{env('APP_NAME')}}</h4>
-      <p>{{env('APP_ADDRESS')}}</p>
-      <p>Phone: <a href="tel:{{env('APP_PHONE')}}">{{env('APP_PHONE')}}</a></p>
-      <p>Email: <a href="mailto:{{env('APP_EMAIL')}}">{{env('APP_EMAIL')}}</a></p>
+
+    <div class="footer">
+        <p>&copy; {{ date('Y') }} {{ env('APP_NAME') }} - Tous droits réservés.</p>
+        <p>Merci pour votre confiance !</p>
     </div>
-    <div class="clearfix"></div>
-  </div>
-  <div class="invoice-description">
-    <div class="invoice-left-top float-left">
-      <h6>Invoice to</h6>
-       <h3>{{$order->first_name}} {{$order->last_name}}</h3>
-       <div class="address">
-        <p>
-          <strong>Country: </strong>
-          {{$order->country}}
-        </p>
-        <p>
-          <strong>Address: </strong>
-          {{ $order->address1 }} OR {{ $order->address2}}
-        </p>
-         <p><strong>Phone:</strong> {{ $order->phone }}</p>
-         <p><strong>Email:</strong> {{ $order->email }}</p>
-       </div>
-    </div>
-    <div class="invoice-right-top float-right" class="text-right">
-      <h3>Invoice #{{$order->order_number}}</h3>
-      <p>{{ $order->created_at->format('D d m Y') }}</p>
-      {{-- <img class="img-responsive" src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate(route('admin.product.order.show', $order->id )))}}"> --}}
-    </div>
-    <div class="clearfix"></div>
-  </div>
-  <section class="order_details pt-3">
-    <div class="table-header">
-      <h5>Order Details</h5>
-    </div>
-    <table class="table table-bordered table-stripe">
-      <thead>
-        <tr>
-          <th scope="col" class="col-6">Product</th>
-          <th scope="col" class="col-3">Quantity</th>
-          <th scope="col" class="col-3">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-      @foreach($order->cart_info as $cart)
-      @php 
-        $product=DB::table('products')->select('title')->where('id',$cart->product_id)->get();
-      @endphp
-        <tr>
-          <td><span>
-              @foreach($product as $pro)
-                {{$pro->title}}
-              @endforeach
-            </span></td>
-          <td>x{{$cart->quantity}}</td>
-          <td><span>${{number_format($cart->price,2)}}</span></td>
-        </tr>
-      @endforeach
-      </tbody>
-      <tfoot>
-        <tr>
-          <th scope="col" class="empty"></th>
-          <th scope="col" class="text-right">Subtotal:</th>
-          <th scope="col"> <span>${{number_format($order->sub_total,2)}}</span></th>
-        </tr>
-      {{-- @if(!empty($order->coupon))
-        <tr>
-          <th scope="col" class="empty"></th>
-          <th scope="col" class="text-right">Discount:</th>
-          <th scope="col"><span>-{{$order->coupon->discount(Helper::orderPrice($order->id, $order->user->id))}}{{Helper::base_currency()}}</span></th>
-        </tr>
-      @endif --}}
-        <tr>
-          <th scope="col" class="empty"></th>
-          @php
-            $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
-          @endphp
-          <th scope="col" class="text-right ">Shipping:</th>
-          <th><span>${{number_format($shipping_charge[0],2)}}</span></th>
-        </tr>
-        <tr>
-          <th scope="col" class="empty"></th>
-          <th scope="col" class="text-right">Total:</th>
-          <th>
-            <span>
-                ${{number_format($order->total_amount,2)}}
-            </span>
-          </th>
-        </tr>
-      </tfoot>
-    </table>
-  </section>
-  <div class="thanks mt-3">
-    <h4>Thank you for your business !!</h4>
-  </div>
-  <div class="authority float-right mt-5">
-    <p>-----------------------------------</p>
-    <h5>Authority Signature:</h5>
-  </div>
-  <div class="clearfix"></div>
-@else
-  <h5 class="text-danger">Invalid</h5>
-@endif
+    @endif
 </body>
 </html>

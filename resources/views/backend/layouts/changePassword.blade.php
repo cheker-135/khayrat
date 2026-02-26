@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Changer le mot de passe')
 @section('main-content')
 <div class="container">
     <div class="row">

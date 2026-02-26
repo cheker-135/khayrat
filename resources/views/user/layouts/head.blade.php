@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>E-SHOP || DASHBOARD</title>
+    <title>KHAYRAT || CUSTOMER DASHBOARD</title>
   
     <!-- Custom fonts for this template-->
     <link href="{{asset('backend/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -14,6 +14,9 @@
   
     <!-- Custom styles for this template-->
     <link href="{{asset('backend/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('backend/css/premium-tables.css')}}" rel="stylesheet">
+    <link href="{{asset('backend/css/premium-forms.css')}}" rel="stylesheet">
     @stack('styles')
+
   
 </head>

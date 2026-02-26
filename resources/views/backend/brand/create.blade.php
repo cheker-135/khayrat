@@ -1,33 +1,39 @@
 @extends('backend.layouts.master')
-@section('title','E-SHOP || Brand Create')
+@section('title','KHAYRAT || Création de Marque')
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Ajouter une marque</h5>
+    <div class="card-header">
+        <h5><i class="fas fa-plus-circle mr-2"></i>Ajouter une marque</h5>
+    </div>
     <div class="card-body">
       <form method="post" action="{{route('brand.store')}}">
         {{csrf_field()}}
-        <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Titre <span class="text-danger">*</span></label>
-        <input id="inputTitle" type="text" name="title" placeholder="Entrez le titre"  value="{{old('title')}}" class="form-control">
-        @error('title')
-        <span class="text-danger">{{$message}}</span>
-        @enderror
-        </div>
         
-        <div class="form-group">
-          <label for="status" class="col-form-label">État <span class="text-danger">*</span></label>
-          <select name="status" class="form-control">
-              <option value="active">Actif</option>
-              <option value="inactive">Inactif</option>
-          </select>
-          @error('status')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
+        <div class="form-grid">
+            <div class="form-group grid-full">
+              <label for="inputTitle">Titre <span class="text-danger">*</span></label>
+              <input id="inputTitle" type="text" name="title" placeholder="Entrez le titre de la marque"  value="{{old('title')}}" class="form-control">
+              @error('title')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            
+            <div class="form-group">
+              <label for="status">Statut <span class="text-danger">*</span></label>
+              <select name="status" class="form-control">
+                  <option value="active">Actif</option>
+                  <option value="inactive">Inactif</option>
+              </select>
+              @error('status')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
         </div>
-        <div class="form-group mb-3">
-          <button type="reset" class="btn btn-warning">Réinitialiser</button>
-           <button class="btn btn-success" type="submit">Soumettre</button>
+
+        <div class="form-actions mb-3">
+           <button type="reset" class="btn btn-warning"><i class="fas fa-undo mr-2"></i>Réinitialiser</button>
+           <button class="btn btn-success" type="submit"><i class="fas fa-check-circle mr-2"></i>Enregistrer la marque</button>
         </div>
       </form>
     </div>
@@ -46,7 +52,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Écrivez une courte description.....",
         tabsize: 2,
         height: 150
     });

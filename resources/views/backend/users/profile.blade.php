@@ -1,91 +1,138 @@
 @extends('backend.layouts.master')
 
-@section('title','Admin Profile')
+@section('title','Profil Admin')
 
 @section('main-content')
 
-<div class="card shadow mb-4">
-    <div class="row">
-        <div class="col-md-12">
-           @include('backend.layouts.notification')
-        </div>
+<div class="card">
+    <div class="card-header">
+        <h5><i class="fas fa-user-circle mr-2"></i>Mon Profil</h5>
     </div>
-   <div class="card-header py-3">
-     <h4 class=" font-weight-bold">Profil</h4>
-     <ul class="breadcrumbs">
-         <li><a href="{{route('admin')}}" style="color:#999">Tableau de bord</a></li>
-         <li><a href="" class="active text-primary">Page de profil</a></li>
-     </ul>
-   </div>
-   <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="image">
+    <div class="card-body">
+        <div class="profile-layout">
+            <div class="profile-sidebar">
+                <div class="profile-card text-center">
+                    <div class="profile-avatar-wrapper">
                         @if($profile->photo)
-                        <img class="card-img-top img-fluid roundend-circle mt-4" style="border-radius:50%;height:80px;width:80px;margin:auto;" src="{{$profile->photo}}" alt="profile picture">
+                            <img class="profile-avatar" src="{{$profile->photo}}" alt="{{$profile->name}}">
                         @else 
-                        <img class="card-img-top img-fluid roundend-circle mt-4" style="border-radius:50%;height:80px;width:80px;margin:auto;" src="{{asset('backend/img/avatar.png')}}" alt="profile picture">
+                            <img class="profile-avatar" src="{{asset('backend/img/avatar.png')}}" alt="Default Avatar">
                         @endif
                     </div>
-                    <div class="card-body mt-4 ml-2">
-                      <h5 class="card-title text-left"><small><i class="fas fa-user"></i> {{$profile->name}}</small></h5>
-                      <p class="card-text text-left"><small><i class="fas fa-envelope"></i> {{$profile->email}}</small></p>
-                      <p class="card-text text-left"><small class="text-muted"><i class="fas fa-hammer"></i> {{$profile->role}}</small></p>
+                    <div class="profile-short-info mt-3">
+                        <h4>{{$profile->name}}</h4>
+                        <p class="text-muted"><i class="fas fa-envelope mr-1"></i> {{$profile->email}}</p>
+                        <span class="badge badge-primary px-3 py-2">{{ucfirst($profile->role)}}</span>
                     </div>
-                  </div>
+                </div>
             </div>
-            <div class="col-md-8">
-                <form class="border px-4 pt-2 pb-3" method="POST" action="{{route('profile-update',$profile->id)}}">
+            
+            <div class="profile-content">
+                <form method="POST" action="{{route('profile-update',$profile->id)}}">
                     @csrf
-                    <div class="form-group">
-                        <label for="inputTitle" class="col-form-label">Nom</label>
-                      <input id="inputTitle" type="text" name="name" placeholder="Entrez le nom"  value="{{$profile->name}}" class="form-control">
-                      @error('name')
-                      <span class="text-danger">{{$message}}</span>
-                      @enderror
-                      </div>
-              
-                      <div class="form-group">
-                          <label for="inputEmail" class="col-form-label">Email</label>
-                        <input id="inputEmail" disabled type="email" name="email" placeholder="Entrez l'email"  value="{{$profile->email}}" class="form-control">
-                        @error('email')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                      </div>
-              
-                      <div class="form-group">
-                      <label for="inputPhoto" class="col-form-label">Photo</label>
-                      <div class="input-group">
-                          <span class="input-group-btn">
-                              <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                              <i class="fa fa-picture-o"></i> Choisir
-                              </a>
-                          </span>
-                          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$profile->photo}}">
-                      </div>
-                        @error('photo')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                      </div>
-                      <div class="form-group">
-                          <label for="role" class="col-form-label">Rôle</label>
-                          <select name="role" class="form-control">
-                              <option value="">-----Sélectionner un rôle-----</option>
-                                  <option value="admin" {{(($profile->role=='admin')? 'selected' : '')}}>Admin</option>
-                                  <option value="user" {{(($profile->role=='user')? 'selected' : '')}}>Utilisateur</option>
-                          </select>
-                        @error('role')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                    <div class="form-grid">
+                        <div class="form-group grid-full">
+                            <label for="inputTitle">Nom complet</label>
+                            <input id="inputTitle" type="text" name="name" placeholder="Votre nom" value="{{$profile->name}}" class="form-control">
+                            @error('name')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-sm">Mettre à jour</button>
+                        <div class="form-group">
+                            <label for="inputEmail">Adresse Email</label>
+                            <input id="inputEmail" disabled type="email" value="{{$profile->email}}" class="form-control bg-light">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">Rôle</label>
+                            <select name="role" class="form-control">
+                                <option value="admin" {{(($profile->role=='admin')? 'selected' : '')}}>Administrateur</option>
+                                <option value="user" {{(($profile->role=='user')? 'selected' : '')}}>Utilisateur</option>
+                            </select>
+                            @error('role')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group grid-full">
+                            <label for="inputPhoto">Photo de profil</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                                        <i class="fas fa-image mr-2"></i>Changer la photo
+                                    </a>
+                                </span>
+                                <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$profile->photo}}">
+                            </div>
+                            @error('photo')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4 text-right">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save mr-2"></i>Enregistrer les modifications</button>
+                    </div>
                 </form>
             </div>
         </div>
-   </div>
+    </div>
 </div>
+
+<style>
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 992px) {
+        .profile-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .profile-card {
+        background: #f8f9fc;
+        border-radius: 15px;
+        padding: 2rem;
+        border: 1px solid #e3e6f0;
+    }
+
+    .profile-avatar-wrapper {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .profile-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-short-info h4 {
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 700;
+    }
+
+    .profile-short-info p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-actions button {
+        padding: 0.6rem 2rem;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+</style>
 
 @endsection
 

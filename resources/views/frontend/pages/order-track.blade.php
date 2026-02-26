@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="summary-content">
                                             <span class="summary-label">Montant total</span>
-                                            <strong class="summary-value">{{number_format($order->total_amount, 2)}} DT</strong>
+                                            <strong class="summary-value">{{number_format($order->total_amount, 2)}} {{Helper::base_currency()}}</strong>
                                         </div>
                                     </div>
                                     
@@ -225,9 +225,9 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td>{{number_format($cart->price, 2)}} DT</td>
+                                                            <td>{{number_format($cart->price, 2)}} {{Helper::base_currency()}}</td>
                                                             <td>{{$cart->quantity}}</td>
-                                                            <td>{{number_format($cart->price * $cart->quantity, 2)}} DT</td>
+                                                            <td>{{number_format($cart->price * $cart->quantity, 2)}} {{Helper::base_currency()}}</td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -235,23 +235,23 @@
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="3" class="text-end"><strong>Sous-total:</strong></td>
-                                                    <td>{{number_format($order->sub_total, 2)}} DT</td>
+                                                    <td>{{number_format($order->sub_total, 2)}} {{Helper::base_currency()}}</td>
                                                 </tr>
                                                 @if($order->coupon > 0)
                                                     <tr>
                                                         <td colspan="3" class="text-end"><strong>Réduction coupon:</strong></td>
-                                                        <td>-{{number_format($order->coupon, 2)}} DT</td>
+                                                        <td>-{{number_format($order->coupon, 2)}} {{Helper::base_currency()}}</td>
                                                     </tr>
                                                 @endif
                                                 @if($order->shipping->price > 0)
                                                     <tr>
                                                         <td colspan="3" class="text-end"><strong>Frais de livraison:</strong></td>
-                                                        <td>{{number_format($order->shipping->price, 2)}} DT</td>
+                                                        <td>{{number_format($order->shipping->price, 2)}} {{Helper::base_currency()}}</td>
                                                     </tr>
                                                 @endif
                                                 <tr class="total-row">
                                                     <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                                    <td>{{number_format($order->total_amount, 2)}} DT</td>
+                                                    <td>{{number_format($order->total_amount, 2)}} {{Helper::base_currency()}}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>

@@ -11,15 +11,15 @@
                             <a href="{{route('home')}}"><img src="{{asset('backend/img/khayrat.png')}}" alt="{{config('app.name')}}" class="footer-logo-img"></a>
                         </div>
                         @php
-                            $settings=DB::table('settings')->get();
+                            $settings=DB::table('settings')->first();
                         @endphp
-                        <p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
+                        <p class="text">{{ $settings->short_des ?? '' }}</p>
                         <div class="contact-call">
                             <i class="ti-headphone-alt"></i>
                             <div class="call-content">
                                 <p class="call-text">Une question ? Appelez-nous 24h/24 et 7j/7</p>
-                                <a href="tel:@foreach($settings as $data){{$data->phone}}@endforeach" class="call-number">
-                                    @foreach($settings as $data) {{$data->phone}} @endforeach
+                                <a href="tel:{{ $settings->phone ?? '' }}" class="call-number">
+                                    {{ $settings->phone ?? '' }}
                                 </a>
                             </div>
                         </div>
@@ -61,9 +61,9 @@
                         <!-- Single Widget -->
                         <div class="contact">
                             <ul>
-                                <li><i class="ti-location-pin"></i> @foreach($settings as $data) {{$data->address}} @endforeach</li>
-                                <li><i class="ti-email"></i> @foreach($settings as $data) {{$data->email}} @endforeach</li>
-                                <li><i class="ti-mobile"></i> @foreach($settings as $data) {{$data->phone}} @endforeach</li>
+                                <li><i class="ti-location-pin"></i> {{ $settings->address ?? '' }}</li>
+                                <li><i class="ti-email"></i> {{ $settings->email ?? '' }}</li>
+                                <li><i class="ti-mobile"></i> {{ $settings->phone ?? '' }}</li>
                             </ul>
                         </div>
                         <!-- End Single Widget -->

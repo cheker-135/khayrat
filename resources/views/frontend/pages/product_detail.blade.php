@@ -133,10 +133,10 @@
 											@php 
 												$after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
 											@endphp
-											<div class="current-price">{{number_format($after_discount,2)}}DT</div>
+											<div class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</div>
 											@if($product_detail->discount > 0)
 												<div class="price-details">
-													<span class="original-price">{{number_format($product_detail->price,2)}}DT</span>
+													<span class="original-price">{{number_format($product_detail->price,2)}} {{Helper::base_currency()}}</span>
 													<span class="discount-percent">-{{$product_detail->discount}}%</span>
 												</div>
 											@endif
@@ -159,7 +159,7 @@
 											
 											<div class="delivery-info">
 												<i class="ti-truck"></i>
-												<span>Livraison gratuite à partir de 200DT</span>
+												<span>Livraison gratuite à partir de 200 {{Helper::base_currency()}}</span>
 											</div>
 										</div>
 										
@@ -439,7 +439,7 @@
 														<ul>
 															<li>Livraison standard : 3-5 jours ouvrables</li>
 															<li>Livraison express : 24-48 heures</li>
-															<li>Livraison gratuite à partir de 200DT</li>
+															<li>Livraison gratuite à partir de 200 {{Helper::base_currency()}}</li>
 															<li>Suivi de commande disponible</li>
 														</ul>
 													</div>
@@ -552,9 +552,9 @@
 													@php 
 														$after_discount=($data->price-(($data->discount*$data->price)/100));
 													@endphp
-													<span class="current-price">{{number_format($after_discount,2)}}DT</span>
+													<span class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
 													@if($data->discount > 0)
-														<span class="original-price">{{number_format($data->price,2)}}DT</span>
+														<span class="original-price">{{number_format($data->price,2)}} {{Helper::base_currency()}}</span>
 													@endif
 												</div>
 											</div>

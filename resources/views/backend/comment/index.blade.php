@@ -17,24 +17,24 @@
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Auteur</th>
               <th>Titre de l'article</th>
               <th>Message</th>
               <th>Date</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Auteur</th>
               <th>Titre de l'article</th>
               <th>Message</th>
               <th>Date</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </tfoot>
           <tbody>
@@ -47,9 +47,9 @@
                     <td>{{$comment->created_at->format('M d D, Y g: i a')}}</td>
                     <td>
                         @if($comment->status=='active')
-                          <span class="badge badge-success">{{$comment->status}}</span>
+                          <span class="badge badge-success">Actif</span>
                         @else
-                          <span class="badge badge-warning">{{$comment->status}}</span>
+                          <span class="badge badge-warning">Inactif</span>
                         @endif
                     </td>
                     <td>
@@ -122,8 +122,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Êtes-vous sûr ?",
+                    text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -132,7 +132,7 @@
                     if (willDelete) {
                        form.submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal("Vos données sont en sécurité !");
                     }
                 });
           })

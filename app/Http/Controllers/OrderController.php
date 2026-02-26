@@ -12,6 +12,8 @@ use Notification;
 use Helper;
 use Illuminate\Support\Str;
 use App\Notifications\StatusNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderPlaced;
 
 class OrderController extends Controller
 {
@@ -146,9 +148,19 @@ class OrderController extends Controller
         }
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
 
-        // dd($users);        
+    // Send confirmation email to client
+    try{
+        $order_detail = Order::with('cart_info.product')->find($order->id);
+        Mail::to($order->email)->send(new OrderPlaced($order_detail));
+    }
+    catch(\Exception $e){
+        \Log::error("Email Error: ".$e->getMessage());
+    }
+
+    // dd($users);        
+        session()->put('order_id', $order->id);
         request()->session()->flash('success','Your product successfully placed in order');
-        return redirect()->route('home');
+        return redirect()->route('thank.you');
     }
 
     /**
@@ -303,5 +315,15 @@ class OrderController extends Controller
             $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
         return $data;
+    }
+
+    public function thankYou()
+    {
+        $order_id = session()->get('order_id');
+        if (!$order_id) {
+            return redirect()->route('home');
+        }
+        $order = Order::find($order_id);
+        return view('frontend.pages.thank-you', compact('order'));
     }
 }

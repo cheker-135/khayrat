@@ -62,4 +62,44 @@
     setTimeout(function(){
       $('.alert').slideUp();
     },4000);
+
+    // Automatic Table Responsiveness Labels
+    $(document).ready(function() {
+        function applyTableLabels() {
+            $('table.table').each(function() {
+                var $table = $(this);
+                var labels = [];
+                
+                // Get labels from thead, and handle possible empty headers
+                $table.find('thead th').each(function(i) {
+                    var label = $(this).text().trim();
+                    if (!label && i === 0) label = "ID"; // Fallback for SN
+                    labels.push(label);
+                });
+                
+                // Apply to each row's cells
+                $table.find('tbody tr').each(function() {
+                    $(this).find('td').each(function(index) {
+                        if (labels[index]) {
+                            $(this).attr('data-label', labels[index]);
+                        }
+                    });
+                });
+            });
+        }
+
+        // Apply on load and after short delay for dynamic tables
+        applyTableLabels();
+        setTimeout(applyTableLabels, 500);
+        
+        // Re-apply when DataTables finishes drawing
+        $(document).on('draw.dt', 'table.table', function() {
+            applyTableLabels();
+        });
+        
+        // Special handle for window resize to fix any layout shifts
+        $(window).on('resize', function() {
+            applyTableLabels();
+        });
+    });
   </script>

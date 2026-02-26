@@ -16,7 +16,7 @@
           <th scope="col">#</th>
           <th scope="col">Heure</th>
           <th scope="col">Titre</th>
-          <th scope="col">Action</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -87,8 +87,8 @@
             // alert(dataID);
             e.preventDefault();
             swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this data!",
+                  title: "Êtes-vous sûr ?",
+                  text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,
@@ -97,7 +97,7 @@
                   if (willDelete) {
                     form.submit();
                   } else {
-                      swal("Your data is safe!");
+                      swal("Vos données sont en sécurité !");
                   }
               });
         })

@@ -209,7 +209,7 @@
                     </div>
                     <div class="service-content">
                         <h3>Livraison Express</h3>
-                        <p>Livraison gratuite pour toutes les commandes supérieures à 100€</p>
+                        <p>Livraison gratuite pour toutes les commandes supérieures à 200 {{Helper::base_currency()}}</p>
                         <span class="service-tag">Gratuit</span>
                     </div>
                 </div>

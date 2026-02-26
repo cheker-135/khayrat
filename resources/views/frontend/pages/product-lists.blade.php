@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','KHAYRAT || Liste des Produits')
+@section('title','KHAYRAT || {{ isset($category_name) ? $category_name : "Liste des Produits" }}')
 
 @section('main-content')
 	
@@ -12,7 +12,12 @@
 						<div class="bread-inner">
 							<ul class="bread-list">
 								<li><a href="{{route('home')}}">Accueil<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="javascript:void(0);">Liste des Produits</a></li>
+								@if(isset($category_name))
+									<li><a href="{{route('product-lists')}}">Produits<i class="ti-arrow-right"></i></a></li>
+									<li class="active"><a href="javascript:void(0);">{{ $category_name }}</a></li>
+								@else
+									<li class="active"><a href="javascript:void(0);">Liste des Produits</a></li>
+								@endif
 							</ul>
 						</div>
 					</div>
@@ -152,9 +157,9 @@
 																<a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a>
 															</h5>
 															<div class="product-price">
-																<span class="current-price">{{number_format($after_discount,2)}}DT</span>
+																<span class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
 																@if($product->discount > 0)
-																	<span class="old-price">{{number_format($product->price,2)}}DT</span>
+																	<span class="old-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
 																@endif
 															</div>
 														</div>
@@ -323,10 +328,10 @@
 															@php
 																$after_discount=($product->price-($product->price*$product->discount)/100);
 															@endphp
-															<div class="current-price">{{number_format($after_discount,2)}}DT</div>
+															<div class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</div>
 															@if($product->discount > 0)
 																<div class="price-details">
-																	<span class="original-price">{{number_format($product->price,2)}}DT</span>
+																	<span class="original-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
 																	<span class="discount-percent">-{{$product->discount}}%</span>
 																</div>
 															@endif
@@ -462,10 +467,10 @@
 												@php
 													$after_discount=($product->price-($product->price*$product->discount)/100);
 												@endphp
-												<div class="current-price">{{number_format($after_discount,2)}}DT</div>
+												<div class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</div>
 												@if($product->discount > 0)
 													<div class="price-details">
-														<span class="original-price">{{number_format($product->price,2)}}DT</span>
+														<span class="original-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
 														<span class="discount-percent">-{{$product->discount}}%</span>
 													</div>
 												@endif
@@ -1826,7 +1831,7 @@
 				max: max_value,
 				values: price,
 				slide: function (event, ui) {
-					$("#price-range-display").val(ui.values[0] + " DT - " + ui.values[1] + " DT");
+					$("#price-range-display").val(ui.values[0] + " {{Helper::base_currency()}} - " + ui.values[1] + " {{Helper::base_currency()}}");
 					$("#price_range").val(ui.values[0] + "-" + ui.values[1]);
 				}
 			});
@@ -1835,9 +1840,9 @@
 			if ($("#price-range-display").length > 0) {
 				$("#price-range-display").val(
 					$("#price-slider-range").slider("values", 0) + 
-					" DT - " + 
+					" {{Helper::base_currency()}} - " + 
 					$("#price-slider-range").slider("values", 1) + 
-					" DT"
+					" {{Helper::base_currency()}}"
 				);
 			}
 		}

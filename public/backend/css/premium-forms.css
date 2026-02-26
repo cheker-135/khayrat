@@ -1,0 +1,200 @@
+/* ============================================================
+   PREMIUM FORMS & UI STYLING - KHAYRAT ADMIN
+   ============================================================ */
+
+/* Main Card Wrapper */
+.card {
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden;
+    background: #ffffff !important;
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 25px 30px !important;
+}
+
+.card-header h5,
+.card-header h6 {
+    color: #1e293b !important;
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    letter-spacing: -0.02em;
+}
+
+.card-body {
+    padding: 30px !important;
+}
+
+/* Form Groups & Labels */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-weight: 700 !important;
+    color: #475569 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 8px !important;
+    display: block;
+}
+
+/* Input Fields Styling */
+.form-control {
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 12px 16px !important;
+    font-size: 0.95rem !important;
+    color: #1e293b !important;
+    background-color: #f8fafc !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: none !important;
+    height: auto !important;
+}
+
+.form-control:focus {
+    background-color: #ffffff !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1) !important;
+}
+
+.form-control::placeholder {
+    color: #94a3b8 !important;
+    font-size: 0.9rem;
+}
+
+/* Select & Multi-select */
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem !important;
+}
+
+/* Checkbox & Radio */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    border: 2px solid #cbd5e1;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* File Manager Helper Styles */
+.input-group {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.input-group-btn .btn {
+    border-radius: 12px 0 0 12px !important;
+    padding: 12px 20px !important;
+    font-weight: 700 !important;
+}
+
+#thumbnail {
+    border-left: none !important;
+    border-radius: 0 12px 12px 0 !important;
+}
+
+/* Button Group Actions */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn {
+    border-radius: 12px !important;
+    padding: 12px 28px !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25) !important;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35) !important;
+}
+
+.btn-warning {
+    background: #fff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+.btn-warning:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+/* Summernote Overrides */
+.note-editor.note-frame {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    background: #f8fafc !important;
+}
+
+.note-toolbar {
+    background: #f1f5f9 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px !important;
+}
+
+/* Two-column layout grid */
+@media (min-width: 992px) {
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 30px;
+    }
+
+    .grid-full {
+        grid-column: span 2;
+    }
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px !important;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100% !important;
+    }
+}

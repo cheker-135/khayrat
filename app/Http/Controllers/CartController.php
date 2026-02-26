@@ -51,7 +51,7 @@ class CartController extends Controller
             $wishlist=Wishlist::where('user_id',auth()->user()->id)->where('cart_id',null)->update(['cart_id'=>$cart->id]);
         }
         request()->session()->flash('success','Product successfully added to cart');
-        return back();       
+        return redirect()->route('cart');       
     }  
 
     public function singleAddToCart(Request $request){
@@ -97,7 +97,7 @@ class CartController extends Controller
             $cart->save();
         }
         request()->session()->flash('success','Product successfully added to cart.');
-        return back();       
+        return redirect()->route('cart');       
     } 
     
     public function cartDelete(Request $request){
@@ -147,6 +147,36 @@ class CartController extends Controller
         }else{
             return back()->with('Cart Invalid!');
         }    
+    }
+
+    public function cartUpdateAjax(Request $request){
+        $cart = Cart::find($request->id);
+        if($cart){
+            if($cart->product->stock < $request->quantity){
+                return response()->json(['status'=>false, 'msg'=>'Stock suffisant : '.$cart->product->stock, 'data'=>null]);
+            }
+            $cart->quantity = $request->quantity;
+            $after_price=($cart->product->price-($cart->product->price*$cart->product->discount)/100);
+            $cart->amount = $after_price * $request->quantity;
+            $cart->save();
+            
+            $total_amount = Helper::totalCartPrice();
+            $coupon_value = 0;
+            if(session()->has('coupon')){
+                $coupon_value = session('coupon')['value'];
+                $total_amount = $total_amount - $coupon_value;
+            }
+            
+            return response()->json([
+                'status'=>true, 
+                'msg'=>'Panier mis à jour', 
+                'amount'=>number_format($cart->amount, 2), 
+                'subtotal'=>number_format(Helper::totalCartPrice(), 2),
+                'total'=>number_format($total_amount, 2),
+                'currency'=>Helper::base_currency()
+            ]);
+        }
+        return response()->json(['status'=>false, 'msg'=>'Panier non trouvé', 'data'=>null]);
     }
 
     // public function addToCart(Request $request){

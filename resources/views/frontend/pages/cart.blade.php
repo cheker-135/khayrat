@@ -45,21 +45,21 @@
 												@php
 												$photo=explode(',',$cart->product['photo']);
 												@endphp
-												<td class="product-image">
+												<td class="product-image" data-label="Produit">
 													<img src="{{$photo[0]}}" alt="{{$photo[0]}}">
 												</td>
-												<td class="product-info">
+												<td class="product-info" data-label="Nom">
 													<p class="product-name"><a href="{{route('product-detail',$cart->product['slug'])}}" target="_blank">{{$cart->product['title']}}</a></p>
 													<p class="product-description">{!!($cart['summary']) !!}</p>
 												</td>
-												<td class="unit-price"><span>{{number_format($cart['price'],2)}} DT</span></td>
-												<td class="quantity">
+												<td class="unit-price" data-label="Prix"><span>{{number_format($cart['price'],2)}} {{Helper::base_currency()}}</span></td>
+												<td class="quantity" data-label="Quantité">
 													<!-- Input Order -->
 													<div class="quantity-control">
 														<button type="button" class="quantity-btn minus" data-type="minus" data-field="quant[{{$key}}]">
 															<i class="ti-minus"></i>
 														</button>
-														<input type="text" name="quant[{{$key}}]" class="quantity-input" data-min="1" data-max="100" value="{{$cart->quantity}}">
+														<input type="text" name="quant[{{$key}}]" class="quantity-input" data-min="1" data-max="100" value="{{$cart->quantity}}" data-id="{{$cart->id}}">
 														<input type="hidden" name="qty_id[]" value="{{$cart->id}}">
 														<button type="button" class="quantity-btn plus" data-type="plus" data-field="quant[{{$key}}]">
 															<i class="ti-plus"></i>
@@ -67,15 +67,15 @@
 													</div>
 													<!--/ End Input Order -->
 												</td>
-												<td class="total-price"><span>{{$cart['amount']}} DT</span></td>
-												<td class="remove">
+												<td class="total-price" data-label="Total"><span id="amount_{{$cart->id}}">{{number_format($cart['amount'],2)}} {{Helper::base_currency()}}</span></td>
+												<td class="remove" data-label="Action">
 													<a href="{{route('cart-delete',$cart->id)}}" class="remove-btn">
 														<i class="ti-trash"></i>
 													</a>
 												</td>
 											</tr>
 										@endforeach
-										<tr class="update-row">
+										{{-- <tr class="update-row">
 											<td colspan="5"></td>
 											<td class="text-end">
 												<button class="btn-update-cart" type="submit">
@@ -83,7 +83,7 @@
 													<span>Mettre à jour</span>
 												</button>
 											</td>
-										</tr>
+										</tr> --}}
 									@else
 										<tr>
 											<td colspan="6">
@@ -143,13 +143,13 @@
 						<div class="summary-details">
 							<div class="summary-item">
 								<span>Sous-total</span>
-								<strong class="cart-subtotal">{{number_format(Helper::totalCartPrice(),2)}} DT</strong>
+								<strong class="cart-subtotal">{{number_format(Helper::totalCartPrice(),2)}} {{Helper::base_currency()}}</strong>
 							</div>
 							
 							@if(session()->has('coupon'))
 							<div class="summary-item discount">
 								<span>Économies coupon</span>
-								<strong>-{{number_format(Session::get('coupon')['value'],2)}} DT</strong>
+								<strong>-{{number_format(Session::get('coupon')['value'],2)}} {{Helper::base_currency()}}</strong>
 							</div>
 							@endif
 							
@@ -162,7 +162,7 @@
 							
 							<div class="summary-total">
 								<span>Total</span>
-								<strong class="order-total">{{number_format($total_amount,2)}} DT</strong>
+								<strong class="order-total">{{number_format($total_amount,2)}} {{Helper::base_currency()}}</strong>
 							</div>
 						</div>
 						
@@ -205,7 +205,7 @@
 						</div>
 						<div class="service-content">
 							<h4>Livraison gratuite</h4>
-							<p>Pour toute commande supérieure à 300 DT</p>
+							<p>Pour toute commande supérieure à 300 {{Helper::base_currency()}}</p>
 						</div>
 					</div>
 					<!-- End Single Service -->
@@ -887,12 +887,84 @@
 	}
 	
 	@media (max-width: 768px) {
-		.cart-table {
-			overflow-x: auto;
+		.cart-table thead {
+			display: none;
 		}
 		
-		.cart-table table {
-			min-width: 700px;
+		.cart-table table, 
+		.cart-table tbody, 
+		.cart-table tr, 
+		.cart-table td {
+			display: block;
+			width: 100%;
+		}
+		
+		.cart-table tr {
+			border-bottom: 2px solid var(--border-color);
+			padding: 20px 0;
+			position: relative;
+		}
+		
+		/* Override base responsive CSS that pushes content to the right */
+		.shopping-cart .table td,
+		.cart-table td {
+			text-align: center !important;
+			padding: 15px 20px !important;
+			padding-left: 20px !important;
+			border: none;
+			position: relative;
+			display: block;
+			width: 100% !important;
+			height: auto !important;
+		}
+		
+		/* Remove orange labels from base CSS */
+		.shopping-cart .table td::before {
+			display: none !important;
+		}
+		
+		.shopping-summery tbody tr {
+			border-bottom: 1px solid var(--border-color) !important;
+		}
+		
+		.shopping-summery tbody .product-name a:hover {
+			color: var(--primary-color) !important;
+		}
+		
+		.shopping-summery tbody .product:hover img {
+			border-color: var(--primary-color) !important;
+		}
+		
+		.shopping-cart .qty .button .btn:hover {
+			color: var(--primary-color) !important;
+		}
+		
+		.product-image {
+			justify-content: center !important;
+			padding-bottom: 20px !important;
+		}
+		
+		.product-image img {
+			width: 120px;
+			height: 120px;
+		}
+		
+		.product-info {
+			text-align: center;
+			display: block !important;
+		}
+		
+		.product-info::before {
+			display: none !important;
+		}
+		
+		.product-name {
+			font-size: 1.2rem;
+			margin-bottom: 10px;
+		}
+		
+		.quantity-control {
+			margin: 0 auto;
 		}
 		
 		.coupon-form .input-group {
@@ -931,10 +1003,6 @@
 	}
 	
 	@media (max-width: 576px) {
-		.cart-table table {
-			min-width: 600px;
-		}
-		
 		.quantity-control {
 			max-width: 120px;
 		}
@@ -950,8 +1018,8 @@
 		}
 		
 		.product-image img {
-			width: 60px;
-			height: 60px;
+			width: 100px;
+			height: 100px;
 		}
 		
 		.cart-summary,
@@ -1010,6 +1078,7 @@
 @endpush
 
 @push('scripts')
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 	<script src="{{asset('frontend/js/nice-select/js/jquery.nice-select.min.js')}}"></script>
 	<script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
 	<script>
@@ -1044,12 +1113,42 @@
 				var min = parseInt($(this).data('min'));
 				var max = parseInt($(this).data('max'));
 				var currentVal = parseInt($(this).val());
+				var cartId = $(this).data('id');
 				
 				if(isNaN(currentVal) || currentVal < min) {
 					$(this).val(min);
+					currentVal = min;
 				} else if(currentVal > max) {
 					$(this).val(max);
+					currentVal = max;
 				}
+
+				// AJAX Update
+				$.ajax({
+					url: "{{route('cart.update.ajax')}}",
+					type: "POST",
+					data: {
+						_token: "{{csrf_token()}}",
+						id: cartId,
+						quantity: currentVal
+					},
+					success: function(response){
+						if(response.status){
+							// Update row total
+							$('#amount_' + cartId).text(response.amount + ' ' + response.currency);
+							// Update subtotal
+							$('.cart-subtotal').text(response.subtotal + ' ' + response.currency);
+							// Update total
+							$('.order-total').text(response.total + ' ' + response.currency);
+						} else {
+							swal("Erreur", response.msg, "error");
+							// Optional: Reset input to previous value if failed
+						}
+					},
+					error: function(){
+						swal("Erreur", "Une erreur est survenue lors de la mise à jour du panier", "error");
+					}
+				});
 			});
 			
 			// Coupon form validation

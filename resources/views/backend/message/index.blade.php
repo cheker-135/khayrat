@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Liste des Messages')
 @section('main-content')
 <div class="card">
   <div class="row">
@@ -16,7 +17,7 @@
           <th scope="col">Nom</th>
           <th scope="col">Sujet</th>
           <th scope="col">Date</th>
-          <th scope="col">Action</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -102,8 +103,8 @@
             // alert(dataID);
             e.preventDefault();
             swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this data!",
+                  title: "Êtes-vous sûr ?",
+                  text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,
@@ -112,7 +113,7 @@
                   if (willDelete) {
                     form.submit();
                   } else {
-                      swal("Your data is safe!");
+                      swal("Vos données sont en sécurité !");
                   }
               });
         })

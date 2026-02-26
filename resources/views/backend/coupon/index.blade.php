@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+@section('title','KHAYRAT || Liste des Coupons')
 
 @section('main-content')
  <!-- DataTales Example -->
@@ -18,22 +19,22 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>N°</th>
               <th>Code promo</th>
               <th>Type</th>
               <th>Valeur</th>
-              <th>État</th>
-              <th>Action</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-                <th>S.N.</th>
+                <th>N°</th>
                 <th>Code promo</th>
                 <th>Type</th>
                 <th>Valeur</th>
-                <th>État</th>
-                <th>Action</th>
+                <th>Statut</th>
+                <th>Actions</th>
               </tr>
           </tfoot>
           <tbody>
@@ -43,22 +44,22 @@
                     <td>{{$coupon->code}}</td>
                     <td>
                         @if($coupon->type=='fixed')
-                            <span class="badge badge-primary">{{$coupon->type}}</span>
+                            <span class="badge badge-primary">Fixe</span>
                         @else
-                            <span class="badge badge-warning">{{$coupon->type}}</span>
+                            <span class="badge badge-warning">Pourcentage</span>
                         @endif
                     </td>
                     <td>
                         @if($coupon->type=='fixed')
-                            ${{number_format($coupon->value,2)}}
+                            {{number_format($coupon->value,2)}} {{Helper::base_currency()}}
                         @else
                             {{$coupon->value}}%
                         @endif</td>
                     <td>
                         @if($coupon->status=='active')
-                            <span class="badge badge-success">{{$coupon->status}}</span>
+                            <span class="badge badge-success">Actif</span>
                         @else
-                            <span class="badge badge-warning">{{$coupon->status}}</span>
+                            <span class="badge badge-warning">Inactif</span>
                         @endif
                     </td>
                     <td>
@@ -158,8 +159,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Êtes-vous sûr ?",
+                    text: "Une fois supprimées, vous ne pourrez plus récupérer ces données !",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -168,7 +169,7 @@
                     if (willDelete) {
                        form.submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal("Vos données sont en sécurité !");
                     }
                 });
           })

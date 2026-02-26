@@ -152,9 +152,9 @@
                                             @php
                                                 $after_discount=($product->price-($product->price*$product->discount)/100);
                                             @endphp
-                                            <span class="current-price">{{number_format($after_discount,2)}}DT</span>
+                                            <span class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
                                             @if($product->discount > 0)
-                                                <span class="old-price">{{number_format($product->price,2)}}DT</span>
+                                                <span class="old-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -246,8 +246,8 @@
                                             @php
                                                 $after_discount=($product->price-($product->price*$product->discount)/100)
                                             @endphp
-                                            <span class="current-price">{{number_format($after_discount,2)}}DT</span>
-                                            <span class="old-price">{{number_format($product->price,2)}}DT</span>
+                                            <span class="current-price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
+                                            <span class="old-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
                                         </div>
                                         <a href="{{route('add-to-cart',$product->slug)}}" class="btn-trending-cart">
                                             <i class="ti-shopping-cart"></i>
@@ -448,9 +448,9 @@
                                         @php
                                             $after_discount=($product->price-($product->price*$product->discount)/100);
                                         @endphp
-                                        <span class="price">{{number_format($after_discount,2)}}DT</span>
+                                        <span class="price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
                                         @if($product->discount > 0)
-                                            <span class="old-price">{{number_format($product->price,2)}}DT</span>
+                                            <span class="old-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -616,9 +616,9 @@
                                     @php
                                         $after_discount=($product->price-($product->price*$product->discount)/100);
                                     @endphp
-                                    <span class="price">{{number_format($after_discount,2)}}DT</span>
+                                    <span class="price">{{number_format($after_discount,2)}} {{Helper::base_currency()}}</span>
                                     @if($product->discount > 0)
-                                        <span class="old-price">{{number_format($product->price,2)}}DT</span>
+                                        <span class="old-price">{{number_format($product->price,2)}} {{Helper::base_currency()}}</span>
                                     @endif
                                 </div>
                                 

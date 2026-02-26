@@ -223,17 +223,32 @@ class FrontendController extends Controller
 
     }
     public function productCat(Request $request){
-        $products=Category::getProductByCat($request->slug);
-        // return $request->slug;
-        $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        // Find the category by slug
+        $category = Category::where('slug', $request->slug)->where('status', 'active')->first();
 
-        if(request()->is('e-shop.loc/product-grids')){
-            return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products);
-        }
-        else{
-            return view('frontend.pages.product-lists')->with('products',$products->products)->with('recent_products',$recent_products);
+        $recent_products = Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+
+        if (!$category) {
+            $products = Product::where('status','active')->paginate(9);
+            return view('frontend.pages.product-lists')
+                ->with('products', $products)
+                ->with('recent_products', $recent_products)
+                ->with('category_name', 'Tous les Produits');
         }
 
+        // Fetch all products belonging to this category (including sub-category products)
+        $products = Product::where('status','active')
+            ->where(function($query) use ($category) {
+                $query->where('cat_id', $category->id)
+                      ->orWhere('child_cat_id', $category->id);
+            })
+            ->orderBy('id','DESC')
+            ->paginate(9);
+
+        return view('frontend.pages.product-lists')
+            ->with('products', $products)
+            ->with('recent_products', $recent_products)
+            ->with('category_name', $category->title);
     }
     public function productSubCat(Request $request){
         $products=Category::getProductBySubCat($request->sub_slug);
@@ -347,6 +362,9 @@ class FrontendController extends Controller
 
     // Login
     public function login(){
+        if(!session()->has('url.intended')){
+            session(['url.intended' => url()->previous()]);
+        }
         return view('frontend.pages.login');
     }
     public function loginSubmit(Request $request){
@@ -354,7 +372,7 @@ class FrontendController extends Controller
         if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'],'status'=>'active'])){
             Session::put('user',$data['email']);
             request()->session()->flash('success','Successfully login');
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         }
         else{
             request()->session()->flash('error','Invalid email and password pleas try again!');
@@ -385,7 +403,7 @@ class FrontendController extends Controller
         Session::put('user',$data['email']);
         if($check){
             request()->session()->flash('success','Successfully registered');
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         }
         else{
             request()->session()->flash('error','Please try again!');
