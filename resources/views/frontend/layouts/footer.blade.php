@@ -13,7 +13,7 @@
                         @php
                             $settings=DB::table('settings')->first();
                         @endphp
-                        <p class="text">{{ $settings->short_des ?? '' }}</p>
+                        <p class="text">{!! $settings->short_des ?? '' !!}</p>
                         <div class="contact-call">
                             <i class="ti-headphone-alt"></i>
                             <div class="call-content">

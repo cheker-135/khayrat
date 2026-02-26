@@ -31,8 +31,9 @@
                         <span>Notre Mission</span>
                     </div>
                     <h2>Bienvenue chez <span class="highlight">Khayrat</span></h2>
-                    <div class="mission-text">
-                        <p>{{$settings->description}}</p>
+                        <div class="mission-text">
+                            {!! $settings->description ?? '' !!}
+                        </div>
                         <p>Depuis notre création, nous nous engageons à fournir des produits de qualité exceptionnelle accompagnés d'un service client inégalé. Notre passion pour l'excellence nous pousse à innover constamment et à créer des expériences shopping mémorables.</p>
                     </div>
                     <div class="mission-stats">
