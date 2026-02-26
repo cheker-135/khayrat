@@ -273,6 +273,71 @@
     #actions a i {
       margin-right: 8px;
     }
+
+    /* Dropzone Progress Enhancements */
+    #uploadForm .dz-preview {
+      display: inline-block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    #uploadForm .dz-progress {
+      position: relative;
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    #uploadForm .dz-upload {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      transition: width 0.3s ease;
+    }
+
+    #uploadForm .dz-error-message {
+      color: #ef4444;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    #uploadForm .dz-filename {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    /* Selection Indicator */
+    .clickable.selected {
+      background: #f0f9ff !important;
+      border-color: var(--primary-color) !important;
+      position: relative;
+    }
+
+    .clickable.selected::after {
+      content: '\f058';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      background: white;
+      border-radius: 50%;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -536,8 +601,44 @@
         'Authorization': 'Bearer ' + getUrlParam('token')
       },
       acceptedFiles: "{{ implode(',', $helper->availableMimeTypes()) }}",
-      maxFilesize: ({{ $helper->maxUploadSize() }} / 1000)
+      maxFilesize: ({{ $helper->maxUploadSize() }} / 1000),
+      addedfile: function(file) {
+        $('#upload-button').addClass('disabled').text('Téléchargement en cours...');
+      },
+      complete: function(file) {
+        if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+          $('#upload-button').removeClass('disabled').text("{{ trans('laravel-filemanager::lfm.message-choose') }}");
+        }
+      }
     }
+
+    // Toggle Selection Logic
+    $(document).on('click', '.clickable', function (e) {
+      if (e.target.tagName === 'A' || $(e.target).closest('a').length > 0) return;
+      
+      var $this = $(this);
+      
+      // If already selected, we want to allow deselecting
+      // LFM script usually runs first and adds 'selected'
+      // We use a small timeout to let LFM script finish its job, then we check if we should toggle back
+      setTimeout(function() {
+        var is_multi = $('#multi_selection_toggle').hasClass('btn-primary'); // Depends on version
+        
+        // Custom toggle behavior: if it was already selected before the click, unselect it
+        if ($this.data('was-selected')) {
+           $this.removeClass('selected').data('was-selected', false);
+           if ($('.clickable.selected').length === 0) {
+             $('#actions').addClass('d-none');
+           }
+        } else {
+           // Mark current state for next click
+           $('.clickable').data('was-selected', false);
+           if ($this.hasClass('selected')) {
+             $this.data('was-selected', true);
+           }
+        }
+      }, 50);
+    });
   </script>
 </body>
 </html>
